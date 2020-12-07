@@ -1,0 +1,23 @@
+version: "3.2"
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: gunicorn web.wsgi:application --bind 0.0.0.0:8000
+    environment:
+#      - SECRET_KEY=${SECRET_KEY}
+      - SECRET_KEY=asdfghjkl
+      #      - DEBUG=${DEBUG}
+      - DEBUG=1
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
