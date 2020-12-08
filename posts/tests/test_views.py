@@ -1,5 +1,6 @@
 import json
 
+import factory.fuzzy
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -29,6 +30,11 @@ class TestApi(APITestCase):
         response = self.client.post("/posts/", {"content": "test_content"})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         assert len(Post.objects.all()) == number_of_posts_before + 1
+
+        # Too long message
+        content = factory.fuzzy.FuzzyText(length=200).fuzz()
+        response = self.client.post("/posts/", {"content": content})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_view_counter(self):
         # Test counter of post views
