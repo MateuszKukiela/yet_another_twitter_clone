@@ -78,17 +78,20 @@ WSGI_APPLICATION = "web.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
         "USER": "postgres",
-        "PASSWORD": "postgres",
+        "PASSWORD": POSTGRES_PASSWORD,
         "HOST": "db",
         "PORT": 5432,
     }
 }
 
+# Database settings above are used only when no DATABASE_URL env is provided
+# This solution works well on Heroku
 DATABASE_URL = os.environ.get("DATABASE_URL")
 db_from_env = dj_database_url.config(
     default=DATABASE_URL, conn_max_age=500, ssl_require=True

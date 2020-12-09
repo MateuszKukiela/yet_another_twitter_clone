@@ -33,9 +33,11 @@ class PostViewSet(viewsets.ModelViewSet):
     )
     http_method_names = ["get", "post", "patch", "put"]
 
+    # Assigning owner of newly created post
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
+    # Views counter implementation
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.views += 1
@@ -43,6 +45,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
+    # Counter zeroing
     def perform_update(self, serializer):
         serializer.save(views=0)
 

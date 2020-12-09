@@ -24,12 +24,12 @@ class TestApi(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         # With account
-        number_of_posts_before = len(Post.objects.all())
+        number_of_posts_before = Post.objects.count()
         user = UserFactory()
         self.client.force_authenticate(user)
         response = self.client.post("/posts/", {"content": "test_content"})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        assert len(Post.objects.all()) == number_of_posts_before + 1
+        assert Post.objects.count() == number_of_posts_before + 1
 
         # Too long message
         content = factory.fuzzy.FuzzyText(length=200).fuzz()
