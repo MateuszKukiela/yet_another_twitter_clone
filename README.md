@@ -63,6 +63,7 @@ You can also use black and isort
 
 ## TO DO
 * Increase test coverage
+* Add Token authentication and endpoint for it generating
 * Add some sort of CI (Heroku CI isn't free, so I'm thinking about moving this repo to GitLab, as they have free CI)
 * Add NginX and Let's Encrypt combo to docker-compose, it would be production ready on any machine then.
 * Move Database setting from settings.py to local_settings.py, or deal with it differently as I don't like current solution. 
